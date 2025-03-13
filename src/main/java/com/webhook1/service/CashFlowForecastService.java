@@ -4,10 +4,21 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.webhook1.dto.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.net.http.HttpHeaders;
+import java.time.LocalDate;
 
 @Service
 public class CashFlowForecastService {
+
+    private final RestTemplate restTemplate = new RestTemplate();
+
+    private final String FORECAST_URL = "http://127.0.0.1:8000/daily_cashflow";
 
 //    public CashFlowForecastRequest getForecast(CashFlowForecastRequest cashFlowDTO, PaymentEntity paymentEntity){
 //        System.out.println("Received Payments: " + paymentEntity);
@@ -41,6 +52,15 @@ public class CashFlowForecastService {
 //    }
 
     public ProjectedForecastDTOResponse getProjectPrediction(){
+
+
+
+//        HttpEntity<LocalDate> httpEntity = new HttpEntity<>(date);
+//
+//        ResponseEntity<Object> response = restTemplate.exchange(
+//                FORECAST_URL+date, HttpMethod.POST, httpEntity, Object.class);
+//        System.out.println("response : " + response);
+
         ProjectedForecastDTOResponse projectedForecastDTO = new ProjectedForecastDTOResponse();
         ProjectedForecastDTOResponse.ProjectedData data = new ProjectedForecastDTOResponse.ProjectedData();
         data.setProjectedOpeningBalance(200000000.00);
@@ -51,4 +71,5 @@ public class CashFlowForecastService {
         projectedForecastDTO.setProjectedData(data);
         return projectedForecastDTO;
     }
+
 }
